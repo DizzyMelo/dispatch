@@ -1,5 +1,6 @@
 package com.dicedev.dispatch.handler;
 
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -25,8 +26,17 @@ public class OrderCreatedHandlerTest {
     }
 
     @Test
-    void listen() {
+    void listen_Success() throws Exception{
         OrderCreated orderCreated = TestEventData.buildOrderCreatedEvent(UUID.randomUUID(), UUID.randomUUID().toString());
+        orderCreatedHandler.listen(orderCreated);
+        verify(dispatchServiceMock, times(1)).process(orderCreated);;
+    }
+
+    @Test
+    void listen_ServiceThrowsException() throws Exception{
+        OrderCreated orderCreated = TestEventData.buildOrderCreatedEvent(UUID.randomUUID(), UUID.randomUUID().toString());
+        doThrow(new RuntimeException()).when(dispatchServiceMock).process(orderCreated);
+
         orderCreatedHandler.listen(orderCreated);
         verify(dispatchServiceMock, times(1)).process(orderCreated);;
     }
