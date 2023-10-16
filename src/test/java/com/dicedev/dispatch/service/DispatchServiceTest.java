@@ -43,7 +43,7 @@ public class DispatchServiceTest {
     }
 
     @Test
-    void testProcess_ThrowsException() throws Exception {
+    void testProcess_OrderDispatchThrowsException() throws Exception {
         OrderCreated testEvent = TestEventData.buildOrderCreatedEvent(UUID.randomUUID(), UUID.randomUUID().toString()); 
         doThrow(new RuntimeException("Producer failure")).when(kafkaProducerMock).send(anyString(), any(OrderDispatched.class));
         
