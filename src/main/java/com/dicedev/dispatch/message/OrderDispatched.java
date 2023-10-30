@@ -13,5 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class OrderDispatched {
     
-    private UUID id;
+    UUID id;
+    UUID processedById;
+    String notes;
 }
